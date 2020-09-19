@@ -1,0 +1,40 @@
+{
+  "name": "JueJin Collection",
+  "version": "0.0.1",
+  "description": "Use the JueJin collection developed by react to organize Google plugins",
+  "icons": {
+    "16": "./icon.16.png",
+    "48": "./icon.16.png",
+    "128": "./icon.16.png"
+  },
+  "manifest_version": 2,
+  "page_action": {
+    "default_icon": "./icon.16.png",
+    "default_title": "JueJin Collection",
+    "default_popup": "index.html"
+  },
+  "background": {
+    "scripts": [
+      "static/js/background.js"
+    ],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.juejin.im/*"
+      ],
+      "js": [
+        "static/js/content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "declarativeContent",
+    "storage",
+    "notifications",
+    "*://*.juejin.im/*"
+  ]
+}
