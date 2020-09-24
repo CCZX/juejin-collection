@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { getCollectionList } from './../api'
 import MockList from './../../mock/list.json'
+import './index.scss'
 
 export default function CollectionList() {
   const [collectionList, setList] = useState([])
@@ -12,7 +13,7 @@ export default function CollectionList() {
     setList(MockList)
   }, [])
 
-  return <div className="__juejin-collection-wrapper">
+  return <div className="juejin-collection-wrapper">
     <div className="list">
       {
         collectionList.map(item => {
