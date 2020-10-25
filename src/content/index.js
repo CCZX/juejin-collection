@@ -5,17 +5,18 @@ import UserHeader from './components/user-header'
 import ToggleVisibleArea from './components/toggle-visible'
 import { getCollectionList, getArticleList } from '../services'
 import render from './render'
-import { getNodeENV } from './../utils'
+import { getNodeENV, setStorage, getStorage } from './../utils'
+import { STORAGE_KEYS } from './../constants'
 import './index.scss'
 
-const wrapperDefaultWidth = 240
-
 export default function App() {
+  const localFixed = getStorage(STORAGE_KEYS.isFixed)
+
   const [collectionList, setCollectionList] = useState([])
   const [openTagIds, setOpenTagIds] = useState([])
   const [articleList, setArticleList] = useState({})
   const [isShow, setShow] = useState(true)
-  const [isFixed, setFixed] = useState(false)
+  const [isFixed, setFixed] = useState(localFixed ?? false)
 
   const wrapperClassName = useMemo(() => {
     const defaultName = "juejin-collection-wrapper"
@@ -61,7 +62,9 @@ export default function App() {
   }, [isFixed, setShow])
 
   const handleToggleFixed = useCallback(() => {
-    setFixed(!isFixed)
+    const nextIsFixed = !isFixed
+    setStorage(STORAGE_KEYS.isFixed, nextIsFixed)
+    setFixed(nextIsFixed)
   }, [setFixed, isFixed])
 
   return <div
