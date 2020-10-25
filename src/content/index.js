@@ -16,7 +16,7 @@ export default function App() {
   const [openTagIds, setOpenTagIds] = useState([])
   const [articleList, setArticleList] = useState({})
   const [loading, setLoading] = useState({})
-  const [isShow, setShow] = useState(true)
+  const [isShow, setShow] = useState(false)
   const [isFixed, setFixed] = useState(localFixed || false)
 
   const wrapperClassName = useMemo(() => {
