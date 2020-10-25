@@ -3,7 +3,13 @@ import React from 'react'
 import './index.scss'
 
 export default function ArticleList(props) {
-  const { data } = props
+  const { data, isLoading } = props
+
+  if (isLoading) {
+    return <div className="loading">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  }
 
   return <div className="article-list">
     {

@@ -15,8 +15,9 @@ export default function App() {
   const [collectionList, setCollectionList] = useState([])
   const [openTagIds, setOpenTagIds] = useState([])
   const [articleList, setArticleList] = useState({})
+  const [loading, setLoading] = useState({})
   const [isShow, setShow] = useState(true)
-  const [isFixed, setFixed] = useState(localFixed ?? false)
+  const [isFixed, setFixed] = useState(localFixed || false)
 
   const wrapperClassName = useMemo(() => {
     const defaultName = "juejin-collection-wrapper"
@@ -45,7 +46,9 @@ export default function App() {
 
   const toggleOpenTagIds = useCallback(async (tagId) => {
     if (!openTagIds.includes(tagId)) {
+      setLoading({...loading, [tagId]: true})
       const tagOfArticleList = await getArticleList(tagId)
+      setLoading({...loading, [tagId]: false})
       const {err_no, data} = tagOfArticleList
       if (err_no == 0) {
         setOpenTagIds([...openTagIds, tagId])
@@ -54,7 +57,7 @@ export default function App() {
     } else {
       setOpenTagIds(openTagIds.filter(item => item !== tagId))
     }
-  }, [setOpenTagIds, openTagIds, articleList, setArticleList])
+  }, [setOpenTagIds, openTagIds, articleList, setArticleList, setLoading, loading])
 
   const handleToggleShow = useCallback((show) => {
     if (isFixed) return
@@ -88,8 +91,8 @@ export default function App() {
               <span className="tag-name">{item.tag_name}</span>
             </div>
             {
-              openTagIds.includes(tagId) && articleList[tagId] && <div className="content">
-                <ArticleList data={articleList[tagId]} />
+              (openTagIds.includes(tagId) && articleList[tagId] || loading[tagId]) && <div className="content">
+                <ArticleList data={articleList[tagId]} isLoading={loading[tagId]} />
               </div>
             }
           </div>

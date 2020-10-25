@@ -12,9 +12,13 @@ export function getUserInfo() {
   if (ENV === PROD) {
     return request.get(`${USER_INFO_URL}?aid=2607&not_self=0`)
   } else {
-    return Promise.resolve({
-      err_no: 0,
-      data: UserInfo
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          err_no: 0,
+          data: UserInfo
+        })
+      }, 1000)
     })
   }
 }
@@ -23,9 +27,13 @@ export function getCollectionList() {
   if (ENV === PROD) {
     return request.get(`${COLLECTION_LIST_URL}?cursor=0&limit=100`)
   } else {
-    return Promise.resolve({
-      err_no: 0,
-      data: CollectionListData
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          err_no: 0,
+          data: CollectionListData
+        })
+      }, 1000)
     })
   }
 }
@@ -34,11 +42,15 @@ export function getArticleList(tag_id) {
   if (ENV === PROD) {
     return request.get(`${ARTICLE_LIST_URL}?tag_id=${tag_id}&cursor=0`)
   } else {
-    return Promise.resolve({
-      err_no: 0,
-      data: {
-        article_list: ArticleListData[tag_id]
-      }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          err_no: 0,
+          data: {
+            article_list: ArticleListData[tag_id]
+          }
+        })
+      }, 1000)
     })
   }
 }
