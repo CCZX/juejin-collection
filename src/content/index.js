@@ -5,6 +5,7 @@ import ArticleList from './components/article/list'
 import UserHeader from './components/user-header'
 import ToggleVisibleArea from './components/toggle-visible'
 import { getCollectionList, getArticleList } from '../services'
+import render from './render'
 import './index.scss'
 
 export default function CollectionList() {
@@ -77,8 +78,4 @@ export default function CollectionList() {
   </div>
 }
 
-const box = document.createElement('div')
-box.id = "__juejin-collection-box"
-document.documentElement.appendChild(box)
-
-ReactDOM.render(<CollectionList />, document.getElementById('__juejin-collection-box'))
+render(<CollectionList />, '__juejin-collection-box')
