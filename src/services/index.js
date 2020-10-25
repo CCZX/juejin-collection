@@ -10,7 +10,7 @@ const ENV = getNodeENV()
 
 export function getUserInfo() {
   if (ENV === PROD) {
-    return request.get(`${USER_INFO_URL}`)
+    return request.get(`${USER_INFO_URL}?aid=2607&not_self=0`)
   } else {
     return Promise.resolve({
       err_no: 0,

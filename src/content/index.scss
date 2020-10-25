@@ -5,20 +5,20 @@
 	top: 51px;
 	width: 240px;
 	transition: all .5s;
-	&.hidden {
+	border-bottom: 1px solid #d9d9d9;
+	&.juejin-collection-wrapper-hidden {
 		transform: translateX(-100%);
 	}
 	.collection-list {
+		max-height: 550px;
 		background-color: #fafafa;
 		color: rgb(15, 46, 71);
 		font-size: 14px;
+		overflow-y: scroll;
 		cursor: pointer;
 		.collection-item {
 			border: 1px solid #d9d9d9;
 			border-bottom: none;
-			&:last-child {
-				border-bottom: 1px solid #d9d9d9;
-			}
 			.header {
 				display: flex;
 				align-items: center;

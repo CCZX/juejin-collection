@@ -21,5 +21,8 @@
   }
   .operation {
     margin-left: auto;
+    .operation-icon {
+      cursor: pointer;
+    }
   }
 }

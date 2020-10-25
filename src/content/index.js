@@ -1,18 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { RightArrow } from './components/icons'
 import ArticleList from './components/article/list'
 import UserHeader from './components/user-header'
 import ToggleVisibleArea from './components/toggle-visible'
 import { getCollectionList, getArticleList } from '../services'
 import render from './render'
+import { getNodeENV } from './../utils'
 import './index.scss'
 
-export default function CollectionList() {
+const wrapperDefaultWidth = 240
+
+export default function App() {
   const [collectionList, setCollectionList] = useState([])
   const [openTagIds, setOpenTagIds] = useState([])
   const [articleList, setArticleList] = useState({})
-  const [isShow, setShow] = useState(false)
+  const [isShow, setShow] = useState(true)
+  const [isFixed, setFixed] = useState(false)
+
+  const wrapperClassName = useMemo(() => {
+    const defaultName = "juejin-collection-wrapper"
+    if (isFixed) {
+      return defaultName
+    }
+    return isShow ? defaultName : `${defaultName} ${defaultName}-hidden`
+  }, [isShow, isFixed])
+
+  const showToggle = useMemo(() => {
+    if (isFixed) {
+      return false
+    }
+    return !isShow
+  }, [isShow, isFixed])
 
   useEffect(() => {
     (async () => {
@@ -38,20 +56,20 @@ export default function CollectionList() {
   }, [setOpenTagIds, openTagIds, articleList, setArticleList])
 
   const handleToggleShow = useCallback((show) => {
+    if (isFixed) return
     setShow(show)
-  })
+  }, [isFixed, setShow])
+
+  const handleToggleFixed = useCallback(() => {
+    setFixed(!isFixed)
+  }, [setFixed, isFixed])
 
   return <div
-    className={isShow ? "juejin-collection-wrapper" : "juejin-collection-wrapper hidden"}
+    className={wrapperClassName}
     onMouseLeave={() => handleToggleShow(false)}
   >
-    {
-      !isShow && <ToggleVisibleArea
-        onMouseOver={handleToggleShow}
-        isShow={isShow}
-      />
-    }
-    <UserHeader />
+    { showToggle && <ToggleVisibleArea onMouseOver={handleToggleShow} /> }
+    <UserHeader handleToggleFixed={handleToggleFixed} isFixed={isFixed} />
     <div className="collection-list">
       {
         collectionList.map(item => {
@@ -78,4 +96,4 @@ export default function CollectionList() {
   </div>
 }
 
-render(<CollectionList />, '__juejin-collection-box')
+getNodeENV() === 'production' && render(<App />, '__juejin-collection-box')
