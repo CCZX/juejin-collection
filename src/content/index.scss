@@ -1,3 +1,36 @@
 .juejin-collection-wrapper {
-	color: red;
+	width: 300px;
+	.collection-list {
+		background-color: #fafafa;
+		color: rgba(0,0,0,.85);
+		cursor: pointer;
+		.collection-item {
+			border: 1px solid #d9d9d9;
+			border-bottom: none;
+			&:last-child {
+				border-bottom: 1px solid #d9d9d9;
+			}
+			.header {
+				display: flex;
+				align-items: center;
+				height: 40px;
+				padding-left: 10px;
+				.icon {
+					display: inline-flex;
+					width: 14px;
+					height: 14px;
+					transition: all .5s;
+				}
+				.tag-name {
+					margin-left: 10px;
+				}
+			}
+			.content {
+				background-color: #fff;
+				padding: 10px;
+				border-top: 1px solid #d9d9d9;
+				transition: all 0.5s;
+			}
+		}
+	}
 }
