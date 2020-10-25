@@ -2,34 +2,55 @@ import React, { useCallback, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { RightArrow } from './components/icons'
 import ArticleList from './components/article/list'
-import { getCollectionList } from './../api'
-import MockList from './../../mock/list.json'
-import { ArticleList as ArticleListData } from './../../mock/articlelist'
+import UserHeader from './components/user-header'
+import ToggleVisibleArea from './components/toggle-visible'
+import { getCollectionList, getArticleList } from '../services'
 import './index.scss'
 
 export default function CollectionList() {
-  const [collectionList, setList] = useState([])
+  const [collectionList, setCollectionList] = useState([])
   const [openTagIds, setOpenTagIds] = useState([])
   const [articleList, setArticleList] = useState({})
+  const [isShow, setShow] = useState(false)
 
   useEffect(() => {
-    // const list = await getCollectionList()
-    // const { err_no, data } = list
-    setList(MockList)
-  }, [])
+    (async () => {
+      const list = await getCollectionList()
+      const { err_no, data } = list
+      if (err_no == 0) {
+        setCollectionList(data)
+      }
+    })()
+  }, [getCollectionList, setCollectionList])
 
-  const toggleOpenTagIds = useCallback((tagId) => {
-    const index = openTagIds.findIndex(id => id === tagId)
-    const articleOfTag = ArticleListData[tagId]
-    if (index === -1) {
-      setOpenTagIds([...openTagIds, tagId])
-      setArticleList({ ...articleList, [tagId]: articleOfTag })
+  const toggleOpenTagIds = useCallback(async (tagId) => {
+    if (!openTagIds.includes(tagId)) {
+      const tagOfArticleList = await getArticleList(tagId)
+      const {err_no, data} = tagOfArticleList
+      if (err_no == 0) {
+        setOpenTagIds([...openTagIds, tagId])
+        setArticleList({ ...articleList, [tagId]: data.article_list })
+      }
     } else {
       setOpenTagIds(openTagIds.filter(item => item !== tagId))
     }
   }, [setOpenTagIds, openTagIds, articleList, setArticleList])
 
-  return <div className="juejin-collection-wrapper">
+  const handleToggleShow = useCallback((show) => {
+    setShow(show)
+  })
+
+  return <div
+    className={isShow ? "juejin-collection-wrapper" : "juejin-collection-wrapper hidden"}
+    onMouseLeave={() => handleToggleShow(false)}
+  >
+    {
+      !isShow && <ToggleVisibleArea
+        onMouseOver={handleToggleShow}
+        isShow={isShow}
+      />
+    }
+    <UserHeader />
     <div className="collection-list">
       {
         collectionList.map(item => {
@@ -57,7 +78,7 @@ export default function CollectionList() {
 }
 
 const box = document.createElement('div')
-// box.id = "__juejin-collection-box"
-// document.documentElement.appendChild(box)
+box.id = "__juejin-collection-box"
+document.documentElement.appendChild(box)
 
-// ReactDOM.render(<CollectionList />, document.getElementById('__juejin-collection-box'))
+ReactDOM.render(<CollectionList />, document.getElementById('__juejin-collection-box'))

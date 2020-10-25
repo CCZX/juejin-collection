@@ -1,0 +1,18 @@
+.article-list {
+  padding-left: 10px;
+  .article-item {
+    .title {
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+		  color: rgba(0,0,0, .85);
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

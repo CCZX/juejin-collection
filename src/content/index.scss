@@ -1,8 +1,17 @@
 .juejin-collection-wrapper {
-	width: 300px;
+	position: fixed;
+	z-index: 999;
+	left: 0px;
+	top: 51px;
+	width: 240px;
+	transition: all .5s;
+	&.hidden {
+		transform: translateX(-100%);
+	}
 	.collection-list {
 		background-color: #fafafa;
-		color: rgba(0,0,0,.85);
+		color: rgb(15, 46, 71);
+		font-size: 14px;
 		cursor: pointer;
 		.collection-item {
 			border: 1px solid #d9d9d9;
@@ -13,7 +22,7 @@
 			.header {
 				display: flex;
 				align-items: center;
-				height: 40px;
+				height: 30px;
 				padding-left: 10px;
 				.icon {
 					display: inline-flex;
