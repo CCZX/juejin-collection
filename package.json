@@ -66,7 +66,28 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "manifest": "node ./script/manifest.js",
-    "storybooks": "start-storybook -p 9001 -c .storybook"
+    "examples": "start-storybook -p 9001 -c .storybook",
+    "commit": "git-cz",
+    "release": "standard-version",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "eslint": "eslint --fix --format codeframe 'src/**.js'",
+    "log": "conventional-changelog"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "src/**.js": [
+      "eslint --fix"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -84,10 +105,18 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-angular": "^8.3.4",
+    "@commitlint/config-conventional": "^8.2.0",
     "@storybook/react": "^6.0.21",
     "babel-plugin-import": "^1.13.0",
+    "conventional-changelog-cli": "^2.1.0",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^10.1.1",
     "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.0"
+    "sass-loader": "^8.0.0",
+    "standard-version": "^7.0.1"
   },
   "jest": {
     "collectCoverageFrom": [
